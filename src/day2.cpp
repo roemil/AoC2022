@@ -3,7 +3,7 @@
 #include <vector>
 #include <map>
 #include <algorithm>
-#include "includes/FileReader.h"
+#include "../includes/FileReader.h"
 
 int mapShapeToPoints(const char& myHand)
 {
@@ -102,7 +102,7 @@ int part2(std::vector<std::pair<char, char>> readLines)
 int main(int argc, char *argv[])
 {
     FileReader fr {};
-    std::vector<std::pair<char, char>> readLines {fr.readPairs("input_day2.txt")};
+    std::vector<std::pair<char, char>> readLines {fr.readPairs("data/input_day2.txt")};
     
     std::cout << "Part1: " << part1(readLines) << std::endl;
     std::cout << "Part2: " << part2(readLines) << std::endl;;

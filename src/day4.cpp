@@ -1,4 +1,4 @@
-#include "includes/FileReader.h"
+#include "../includes/FileReader.h"
 #include <set>
 #include <iostream>
 
@@ -89,7 +89,7 @@ bool part2(const std::set<int>& smallestSet, const std::set<int>& largestSet)
 int main()
 {
     FileReader fr {};
-    std::vector<std::string> readLines {fr.readLines("input_day4.txt")};
+    std::vector<std::string> readLines {fr.readLines("data/input_day4.txt")};
     int fullyOverlap {0};
     int anyOverlap {0};
     for(auto& line : readLines)

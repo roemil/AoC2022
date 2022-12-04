@@ -4,8 +4,8 @@
 #include <algorithm>
 #include <iterator>
 
-#include "includes/FileReader.h"
-#include "includes/Utility.h"
+#include "../includes/FileReader.h"
+#include "../includes/Utility.h"
 
 int charToInt(const char& ch)
 {
@@ -41,7 +41,7 @@ std::set<char> splitLineToSet(std::string& line, const int& start, const int& en
 int part1()
 {
     FileReader fr;
-    std::vector<std::string> lines = fr.readLines("input_day3.txt");
+    std::vector<std::string> lines = fr.readLines("data/input_day3.txt");
 
     std::vector<std::set<char>> bagsA;
     std::vector<std::set<char>> bagsB;
@@ -75,7 +75,7 @@ int part1()
 int part2()
 {
     FileReader fr;
-    std::vector<std::string> lines = fr.readLines("input_day3.txt");
+    std::vector<std::string> lines = fr.readLines("data/input_day3.txt");
     std::vector<std::set<char>> elves{};
 
     for(auto line : lines)

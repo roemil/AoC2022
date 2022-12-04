@@ -2,7 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-#include "FileReader.h"
+#include "../includes/FileReader.h"
 
 bool comp(int i, int j)
 {
@@ -12,8 +12,7 @@ bool comp(int i, int j)
 int main(int argc, char *argv[])
 {
     FileReader fr {};
-    std::vector<std::string> readLines {fr.readLines("input_day1.txt")};
-    int maxCal  {0};
+    std::vector<std::string> readLines {fr.readLines("data/input_day1.txt")};
     int currentCal {0};
     std::vector<int> calVector {};
     for(std::string& line : readLines)
