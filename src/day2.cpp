@@ -3,7 +3,7 @@
 #include <vector>
 #include <map>
 #include <algorithm>
-#include "../includes/FileReader.h"
+#include "../include/FileReader.h"
 
 int mapShapeToPoints(const char& myHand)
 {

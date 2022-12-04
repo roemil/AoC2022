@@ -4,8 +4,8 @@
 #include <algorithm>
 #include <iterator>
 
-#include "../includes/FileReader.h"
-#include "../includes/Utility.h"
+#include "../include/FileReader.h"
+#include "../include/Utility.h"
 
 int charToInt(const char& ch)
 {

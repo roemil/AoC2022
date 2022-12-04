@@ -2,7 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-#include "../includes/FileReader.h"
+#include "../include/FileReader.h"
 
 bool comp(int i, int j)
 {
