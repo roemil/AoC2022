@@ -12,7 +12,12 @@ class FileReader
         FileReader() = default;
         std::vector<std::string> readLines(const std::string& fileName)
         {
-            std::ifstream in(fileName, std::ios_base::in);
+            std::ifstream in(fileName);
+            if (!in.is_open())
+            {
+               throw std::system_error(errno, std::generic_category(), fileName);
+            }
+           
             std::string line{};
             std::vector<std::string> res {};
             while(std::getline(in, line))
@@ -23,7 +28,11 @@ class FileReader
         }
         std::vector<std::pair<char, char>> readPairs(const std::string& fileName)
         {
-            std::ifstream in(fileName, std::ios_base::in);
+            std::ifstream in(fileName);
+            if (!in.is_open())
+            {
+               throw std::system_error(errno, std::generic_category(), fileName);
+            }
             std::string line{};
             std::vector<std::pair<char, char>> res {};
             while(std::getline(in, line))
