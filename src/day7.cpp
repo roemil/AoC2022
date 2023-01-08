@@ -176,20 +176,21 @@ int main(){
         }
     }
 
-    currentHead = head->next;
-    sumDirectory(currentHead);
+    auto root = head->next;
+    sumDirectory(root);
     //printFilesystem(currentHead, "");
     int res = 0;
-    sumDirectoryPart1(currentHead, res);
+    sumDirectoryPart1(root, res);
     std::cout << "Part1: " << res << std::endl;
+
     assert(res == 1453349);
     int res2 = 0;
-    std::cout << "Total space used: " << currentHead->size_ << std::endl;
-    int target = 30000000 - (70000000 - currentHead->size_);
+    std::cout << "Total space used: " << root->size_ << std::endl;
+    int target = 30000000 - (70000000 - root->size_);
     std::cout << "Total space left to reach 3MB: " << target << std::endl;
 
     std::vector<int> dirs{};
-    sumDirectoryPart2(currentHead, res2, target, dirs);
+    sumDirectoryPart2(root, res2, target, dirs);
     auto it = std::min_element(dirs.begin(), dirs.end());
     std::cout << "Min dir: " <<  *it << std::endl;
     assert(*it == 2948823);
