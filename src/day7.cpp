@@ -8,6 +8,8 @@ class File
 {
     public:
         File(const int fileSize, const std::string& name) : fileSize_(fileSize), name_(name) {};
+        int getSize() {return fileSize_;};
+        std::string getName() {return name_;};
 
     private:
         int fileSize_;
@@ -51,6 +53,21 @@ int countNumRows(const std::vector<std::string>& lines, int startIndex)
         count++;
     }
     return count;
+}
+
+void printFilesystem(Node* head)
+{
+    auto currentHead = head;
+    std::cout << "Dir: " << head->name_ << std::endl;
+    for(const auto& file : currentHead->files_)
+    {
+        std::cout << "File: " << file->getName() << " Size: " << file->getSize() << std::endl;
+    }
+    for(const auto& dir : currentHead->dirs_)
+    {
+        printFilesystem(dir);
+    }
+
 }
 
 int main(){
@@ -125,21 +142,10 @@ int main(){
         }
     }
 
-/*     auto currentHead = head;
-    while(currentHead)
-    {
-        // print name of dir
-        std::cout << currentHead->name_ << std::endl;
-        for(const auto& dir : currentHead->dirs_)
-        {
 
-        }
-        // print all files inside dir
-        for(const auto& file : currentHead->files_)
-        {
-            std::cout << "File: " << file->name_ << " Size: " << file->fileSize_ std::endl;
-        }
-    }*/
+    std::cout << "Printing... " << std::endl;
+    currentHead = head->next;
+    printFilesystem(currentHead);
 
 
     return 0;
