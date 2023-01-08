@@ -26,6 +26,7 @@ class Node
         std::vector<File*> files_;
         Node* next;
         Node* parent;
+        int part1 = 0;
 
         ~Node()
         {
@@ -55,24 +56,65 @@ int countNumRows(const std::vector<std::string>& lines, int startIndex)
     return count;
 }
 
-void printFilesystem(Node* head)
+void printFilesystem(Node* head, std::string indent)
 {
     auto currentHead = head;
-    std::cout << "Dir: " << head->name_ << std::endl;
-    for(const auto& file : currentHead->files_)
-    {
-        std::cout << "File: " << file->getName() << " Size: " << file->getSize() << std::endl;
-    }
+    std::cout << indent << "Dir: " << head->name_ << " size: " << head->size_ << std::endl;
     for(const auto& dir : currentHead->dirs_)
     {
-        printFilesystem(dir);
+        printFilesystem(dir, indent + "    ");
+    }
+    for(const auto& file : currentHead->files_)
+    {
+        std::cout << indent << " "<< "File: " << file->getName() << " Size: " << file->getSize() << std::endl;
     }
 
 }
 
+int sumDirectory(Node* head)
+{
+    auto currentHead = head;
+    for(const auto& dir : currentHead->dirs_)
+    {
+        head->size_ += sumDirectory(dir);
+    }
+    for(const auto& file : currentHead->files_)
+    {
+        head->size_ += file->getSize();
+    }
+    return head->size_;
+}
+
+void sumDirectoryPart1(Node* head, int& res)
+{
+    auto currentHead = head;
+    for(const auto& dir : currentHead->dirs_)
+    {
+        if(dir->size_ < 100000)
+        {
+            res += dir->size_;
+        }
+        sumDirectoryPart1(dir, res);
+    }
+}
+
+void sumDirectoryPart2(Node* head, int& res, int target, std::vector<int>& dirs)
+{
+    auto currentHead = head;
+    for(const auto& dir : currentHead->dirs_)
+    {
+        if(dir->size_ >= target)
+        {
+            res += dir->size_;
+            dirs.push_back(dir->size_);
+        }
+        sumDirectoryPart2(dir, res, target, dirs);
+    }
+}
+
 int main(){
     FileReader fr;
-    auto readLines = fr.readLines("data/input_test.txt");
+    auto readLines = fr.readLines("data/input_day7.txt");
 
     Node * head = new Node("dummy");
     auto currentHead = head;
@@ -80,12 +122,10 @@ int main(){
     for(int i = 0; i < readLines.size(); ++i)
     {
         auto line = readLines[i];
-        std::cout << line << std::endl;
         if(line.substr(0,7) == "$ cd ..")
         {
             if(currentHead && currentHead->parent)
             {
-                std::cout << "Backing to " << currentHead->parent->name_ << std::endl;
                 currentHead = currentHead->parent;
                 continue;
             }
@@ -98,14 +138,12 @@ int main(){
             {
                 if(dir->name_ == dirName)
                 {
-                    std::cout << "Moving into " << dirName << std::endl;
                     currentHead->next = dir;
                     break;
                 }
             }
             if(dir == currentHead->dirs_.end())
             {
-                std::cout << "Creating and cd into " << dirName << std::endl;
                 Node* newDir = new Node(dirName);
                 newDir->parent = currentHead;
                 currentHead->next = newDir;
@@ -121,20 +159,16 @@ int main(){
             for(int j = i+1; j <=i+numRows; ++j)
             {
                 auto insideLine = readLines[j];
-                std::cout << "insideLine " << insideLine << std::endl;
                 if(insideLine.substr(0, 3) == "dir")
                 {
                     std::string dirName = insideLine.substr(insideLine.find("dir ") + 4);
-                    std::cout << "Creating new Dir " << dirName << std::endl;
                     Node* newDir = new Node(dirName);
                     currentHead->dirs_.push_back(newDir);
                 }
                 else
                 {
                     int fileSize = std::stoi(insideLine.substr(0, insideLine.find(" ")));
-                    std::cout << "Filesize: " << fileSize << std::endl;
                     std::string fileName = insideLine.substr(insideLine.find(" ") + 1);
-                    std::cout << "FileName: " << fileName << std::endl;
                     File* newFile = new File(fileSize, fileName);
                     currentHead->files_.push_back(newFile);
                 }
@@ -142,10 +176,23 @@ int main(){
         }
     }
 
-
-    std::cout << "Printing... " << std::endl;
     currentHead = head->next;
-    printFilesystem(currentHead);
+    sumDirectory(currentHead);
+    //printFilesystem(currentHead, "");
+    int res = 0;
+    sumDirectoryPart1(currentHead, res);
+    std::cout << "Part1: " << res << std::endl;
+    assert(res == 1453349);
+    int res2 = 0;
+    std::cout << "Total space used: " << currentHead->size_ << std::endl;
+    int target = 30000000 - (70000000 - currentHead->size_);
+    std::cout << "Total space left to reach 3MB: " << target << std::endl;
+
+    std::vector<int> dirs{};
+    sumDirectoryPart2(currentHead, res2, target, dirs);
+    auto it = std::min_element(dirs.begin(), dirs.end());
+    std::cout << "Min dir: " <<  *it << std::endl;
+    assert(*it == 2948823);
 
 
     return 0;
