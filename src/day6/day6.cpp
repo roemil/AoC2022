@@ -2,7 +2,7 @@
 #include <vector>
 #include <string>
 #include <iostream>
-#include "../include/FileReader.h"
+#include "../../include/FileReader.h"
 
 bool isCharSeen(const char& ch, const std::set<char>& set)
 {
@@ -42,7 +42,7 @@ int solveDay6(const std::string& line, int charCnt)
 int main()
 {
     FileReader fr;
-    std::vector<std::string> readLines {fr.readLines("data/input_day6.txt")};
+    std::vector<std::string> readLines {fr.readLines("input_day6.txt")};
     auto line = readLines[0];
     assert(solveDay6(line, 4) == 1538);
     assert(solveDay6(line, 14) == 2315);
